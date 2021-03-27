@@ -36,7 +36,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-
+        // Tất cả các route có parameter name là id sẽ đều phải là số.
+        // Route::pattern('id', '[0-9]+');
         $this->routes(function () {
             Route::prefix('api')
                 ->middleware('api')

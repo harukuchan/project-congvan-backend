@@ -1,19 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Controller\StudentController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Controllers\StudentController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function(){
+    return view('home');
 });
-Route::resource('student',StudentController::class);
+
+// Route::prefix('greeting')->group(function () {
+
+// 	// work for: /greeting/vn
+//     Route::get('vn', function () {
+//         $hello =
+//             array("Khanh"=>27, "Đức"=>32, "Huyền"=>35, "Thúy"=>30);
+//         return  json_encode($hello);
+//     });
+
+//     // work for: /greeting/en   
+//     Route::get('en', function () {
+//         return "Hello!";    
+//     });
+
+//     // work for: /greeting/cn
+//     Route::get('cn', function () {
+//         return "你好!";
+//     });
+// });
