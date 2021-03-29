@@ -33,10 +33,20 @@ class UserController extends Controller
             ]);
         }
         else
-    {
-        return response([
-            'message' => 'false'
-        ]);
+        {
+            return response([
+                'message' => 'false'
+            ]);
+        }
     }
+
+    public function index(){
+        $user = 'Nghia';
+        $array = array(
+            'hj' => '1',
+            'hk' => '2',
+            'h3' => '3',
+        );
+        return view('user', compact('user','array'));
     }
 }

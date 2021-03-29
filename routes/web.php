@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Controllers\StudentController;
+use Illuminate\Support\Facades\Request;
 
 Route::get('/', function(){
     return view('home');
@@ -26,3 +28,9 @@ Route::get('/', function(){
 //         return "你好!";
 //     });
 // });
+
+// Route::match(['get', 'post'], '/student', function (Request $request) {
+//     return 'method is ' . $request->method();
+// }); ---------- request method
+Route::get('/home/{name?}',[HomeController::class,'index'])->name('home.index');
+Route::get('/users',[UserController::class,'index'])->name('users.index');
