@@ -17,7 +17,8 @@
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.6",
         "laravel/ui": "^3.2",
-        "mollie/mollie-api-php": "^2.30"
+        "mollie/mollie-api-php": "^2.30",
+        "nesbot/carbon": "^2.46"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

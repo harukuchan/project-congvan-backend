@@ -9,12 +9,16 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function test(Request $request){
-        $email = $request->email;
-        $password = Hash::make($request->password);
-        $user = new User();
-        $user->email = $email;
-        $user->password = $password;
+    public function register(Request $request){
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->gender = $request->input('gender');
+        $user->address = $request->input('address');
+        $user->city = $request->input('city');
+        $user->gender = $request->input('gender');
+        $user->birthday = $request->input('birthday');
         $user->save();
         return response([
             'message' => 'success',

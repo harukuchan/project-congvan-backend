@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,5 +21,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/createusers',[UserController::class,'test']);
+Route::post('/register',[UserController::class,'register']);
 Route::post('/loginuser',[UserController::class,'login']);
+
+
