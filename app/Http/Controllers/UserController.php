@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MyMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -43,14 +45,28 @@ class UserController extends Controller
             ]);
         }
     }
+    public function resetPassword(Request $request){
+        $email = $request->email;
 
-    public function index(){
-        $user = 'Nghia';
-        $array = array(
-            'hj' => '1',
-            'hk' => '2',
-            'h3' => '3',
-        );
-        return view('user', compact('user','array'));
+        $details = [
+            'title' => 'Mail from CONG VAN SYSTEM',
+            'body' => 'This is email for reset password'
+        ];
+
+        Mail::to($email)->send(new MyMail($details));
+        return response([
+            'message' => 'success',
+        ]);
+
     }
+
+    // public function index(){
+    //     $user = 'Nghia';
+    //     $array = array(
+    //         'hj' => '1',
+    //         'hk' => '2',
+    //         'h3' => '3',
+    //     );
+    //     return view('user', compact('user','array'));
+    // }
 }

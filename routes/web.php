@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -18,9 +19,9 @@ Route::get('/', function(){
 //         return  json_encode($hello);
 //     });
 
-//     // work for: /greeting/en   
+//     // work for: /greeting/en
 //     Route::get('en', function () {
-//         return "Hello!";    
+//         return "Hello!";
 //     });
 
 //     // work for: /greeting/cn
