@@ -26,3 +26,4 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/loginuser',[UserController::class,'login']);
 
 Route::post('/resetpassword',[UserController::class,'resetPassword']);
+Route::post('/confirmtoken',[UserController::class,'confirmtoken']);

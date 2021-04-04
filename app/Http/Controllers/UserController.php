@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MyMail;
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Passport\Token;
 
 class UserController extends Controller
 {
@@ -47,19 +50,56 @@ class UserController extends Controller
     }
     public function resetPassword(Request $request){
         $email = $request->email;
+        $user = User::where('email',$email)->get();
+        foreach($user as $u){
+            $kiemtra = $u->email;
+        }
 
-        $details = [
-            'title' => 'Mail from CONG VAN SYSTEM',
-            'body' => 'This is email for reset password'
-        ];
+        if($email == $kiemtra)
+        {
+            $token = Str::random(10);
+            $details = [
+                'title' => 'Mail from CONG VAN SYSTEM',
+                'body' => 'This is email for reset you password',
+                'token' => $token,
+            ];
 
-        Mail::to($email)->send(new MyMail($details));
-        return response([
-            'message' => 'success',
-        ]);
 
+            Mail::to($email)->send(new MyMail($details));
+            $passwordReset = new PasswordReset();
+            $passwordReset->email = $request->email;
+            $passwordReset->token = $token;
+            $passwordReset ->save();
+            return response([
+                'message' => 'success',
+            ]);
+        }
+        else
+        {
+            return response([
+                'message' => 'Your email address is incorrect',
+            ]);
+        }
     }
-
+    public function confirmToken(Request $request){
+        $token = $request->token;
+        $tokentable = PasswordReset::where('token', $token)->get();
+        foreach($tokentable as $t)
+        {
+            $tokentable = $t->token;
+        }
+        if($tokentable === $token)
+        {
+            return response([
+                'message' => 'Success',
+            ]);
+        }
+        else{
+            return response([
+                'message' =>'your token is incorrect !',
+            ]);
+        }
+    }
     // public function index(){
     //     $user = 'Nghia';
     //     $array = array(
