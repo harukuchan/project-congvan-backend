@@ -51,6 +51,7 @@ class UserController extends Controller
     public function resetPassword(Request $request){
         $email = $request->email;
         $user = User::where('email',$email)->get();
+
         foreach($user as $u){
             $kiemtra = $u->email;
         }
@@ -97,6 +98,25 @@ class UserController extends Controller
         else{
             return response([
                 'message' =>'your token is incorrect !',
+            ]);
+        }
+    }
+    public function updatePassword(Request $request){
+        $password = $request->password;
+        $repassword = $request->repassword;
+        if($password == $repassword){
+            $input = $request->only('password','repassword');
+            return response([
+                'message' =>'success',
+                'input' => $input,
+            ]);
+        }
+        else
+        {
+            return response([
+                'message' =>'error',
+                'password' => $password,
+                'repassword' => $repassword,
             ]);
         }
     }
