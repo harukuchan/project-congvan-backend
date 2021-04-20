@@ -28,3 +28,8 @@ Route::post('/loginuser',[UserController::class,'login']);
 Route::post('/resetpassword',[UserController::class,'resetPassword']);
 Route::post('/confirmtoken',[UserController::class,'confirmtoken']);
 Route::post('/updatepassword',[UserController::class,'updatePassword']);
+Route::get('/getusernhanvien', [UserController::class,'getUserNhanVien']);
+Route::post('/editusernhanvien', [UserController::class,'editUserNhanVien']);
+Route::post('/deleteusernhanvien', [UserController::class,'deleteUserNhanVien']);
+
+Route::post('/uploadcongvan', [UserController::class,'uploadCongVan']);

@@ -3,32 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MyMail;
+use App\Models\File;
 use App\Models\PasswordReset;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Token;
+use SebastianBergmann\Environment\Console;
 
 class UserController extends Controller
 {
     public function register(Request $request){
-        $user = new User;
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->gender = $request->input('gender');
-        $user->address = $request->input('address');
-        $user->city = $request->input('city');
-        $user->gender = $request->input('gender');
-        $user->birthday = $request->input('birthday');
-        $user->save();
-        return response([
-            'message' => 'success',
-            'user' => $user,
-        ]);
+            $user = new User;
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->confirmpassword = Hash::make($request->input('confirmPassword'));
+            $user->gender = $request->input('gender');
+            $user->name = $request->input('name');
+            $user->phanquyen = 'nhanvien';
+            $user->save();
+            return response([
+                'message' => 'success',
+                'user' => json_encode($user),
+            ]);
     }
     public function login(Request $request){
         $email = $request->email;
@@ -38,7 +40,7 @@ class UserController extends Controller
             $user = Auth::user();
             return response([
                 'message' => 'success',
-                'user' => $user,
+                'user' => $user
             ]);
         }
         else
@@ -119,6 +121,77 @@ class UserController extends Controller
                 'repassword' => $repassword,
             ]);
         }
+    }
+    public function getUserNhanVien(){
+        $user = User::where('phanquyen','nhanvien')->get();
+        return response([
+            'message' => 'success',
+            'user' =>$user,
+        ]);
+
+    }
+    public function editUserNhanVien(Request $request){
+        $id = $request->input('id');
+        $user = User::where('phanquyen','nhanvien')
+        ->where('_id',$id)
+        ->first();
+
+        if($user != null ){
+            $user->email = $request->input('email');
+            $user->gender = $request->input('gender');
+            $user->name = $request->input('name');
+            $user->phanquyen = $request->input('phanquyen','nhanvien');
+            $user->updated_at = new DateTime('now');
+            $user->save();
+            return response([
+                'messages' => 'success',
+                'user' => $user,
+            ]);
+        }
+        else{
+            return response([
+                'message' => 'false',
+            ]);
+        }
+    }
+    public function deleteUserNhanVien(Request $request){
+        $id = $request->input('id');
+        $user = User::where('phanquyen','nhanvien')
+        ->where('_id',$id)
+        ->first();
+        if($user != null ){
+            $user->delete();
+            return response([
+                'messages' => 'success',
+                'user' => $user,
+            ]);
+        }
+        else{
+            return response([
+                'message' => 'false',
+            ]);
+        }
+    }
+    public function uploadCongVan(Request $request)
+    {
+        $file = new File();
+        $file = $request->input('file');
+        $fileName = $file->getClientOriginalName();
+
+        $uploadDir = 'upload/';
+        $fullpath = $uploadDir . $fileName;
+        Storage::disk('s3')->put($fullpath, file_get_contents($file), 'public');
+
+        $item = new File();
+        $item->url = $fileName;
+        $item->mimetype = $file->getClientMimeType();
+        $item->author_id = auth()->id();
+        $item->save();
+
+        return response([
+            'message' => 'success',
+            'file' => $item,
+        ]);
     }
     // public function index(){
     //     $user = 'Nghia';
