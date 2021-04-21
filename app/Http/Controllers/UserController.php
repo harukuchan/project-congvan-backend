@@ -174,8 +174,8 @@ class UserController extends Controller
     }
     public function uploadCongVan(Request $request)
     {
-        $file = new File();
-        $file = $request->input('file');
+        // $file = new File();
+        $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
 
         $uploadDir = 'upload/';
