@@ -33,3 +33,4 @@ Route::post('/editusernhanvien', [UserController::class,'editUserNhanVien']);
 Route::post('/deleteusernhanvien', [UserController::class,'deleteUserNhanVien']);
 
 Route::post('/uploadcongvan', [UserController::class,'uploadCongVan']);
+Route::post('/uploadcongvannotres', [UserController::class,'uploadCVNotRes']);

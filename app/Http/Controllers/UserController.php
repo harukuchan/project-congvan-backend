@@ -8,13 +8,13 @@ use App\Models\PasswordReset;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Token;
-use SebastianBergmann\Environment\Console;
 
 class UserController extends Controller
 {
@@ -174,32 +174,34 @@ class UserController extends Controller
     }
     public function uploadCongVan(Request $request)
     {
-        // $file = new File();
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
-
-        $uploadDir = 'upload/';
-        $fullpath = $uploadDir . $fileName;
-        Storage::disk('s3')->put($fullpath, file_get_contents($file), 'public');
-
-        $item = new File();
-        $item->url = $fileName;
-        $item->mimetype = $file->getClientMimeType();
-        $item->author_id = auth()->id();
-        $item->save();
+        $path = $file->storeAs('cv-response', date(now()).$fileName, 's3');
 
         return response([
-            'message' => 'success',
-            'file' => $item,
+            'path' => $path,
+        ]);
+        // $fileName = $file->getClientOriginalName();
+        // $fileName = time().$file;
+        // $uploadDir = 'upload/';
+        // $fullpath = $uploadDir.$fileName;
+        //Storage::put($fullpath, $fileName);
+
+
+
+        // return response([
+        //     'message' => $file,
+        //     // 'file' => $fileName,
+        //     // 'fullpath' => $fullpath,
+        // ]);
+    }
+    public function uploadCVNotRes(Request $request){
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+        $path = $file->storeAs('cv-not-response', date(now()).$fileName, 's3');
+
+        return response([
+            'path' => $path,
         ]);
     }
-    // public function index(){
-    //     $user = 'Nghia';
-    //     $array = array(
-    //         'hj' => '1',
-    //         'hk' => '2',
-    //         'h3' => '3',
-    //     );
-    //     return view('user', compact('user','array'));
-    // }
 }
