@@ -219,7 +219,7 @@ class UserController extends Controller
         $date = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $file = $request->file('filenot');
         $fileName = $file->getClientOriginalName();
-        $path = $file->storeAs('cv-not-response',$fileName, 's3');
+        $path = $file->storeAs('cv-not-response', $fileName, 's3');
 
         $files = new Filenotres();
         $files->namecongvan = $fileName;
@@ -253,12 +253,36 @@ class UserController extends Controller
     public function getFileFromAWS(Request $request)
     {
         $fileName = $request->viewfile;
-        if (Storage::disk('s3')->exists('cv-response/'.$fileName)) {
-            $url = Storage::temporaryUrl('cv-response/'.$fileName, now()->addMinutes(5));
+        if (Storage::disk('s3')->exists('cv-response/' . $fileName)) {
+            $url = Storage::temporaryUrl('cv-response/' . $fileName, now()->addMinutes(5));
         }
         return  response([
             'message' => $fileName,
             'url' => $url,
         ]);
     }
+
+    public function getFileNotResFromAWS(Request $request)
+    {
+        $fileName = $request->viewfile;
+        if (Storage::disk('s3')->exists('cv-not-response/' . $fileName)) {
+            $url = Storage::temporaryUrl('cv-not-response/' . $fileName, now()->addMinutes(5));
+        }
+        return  response([
+            'message' => $fileName,
+            'url' => $url,
+        ]);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $filename = $request->filename;
+        $fileName = File::where('namecongvan', $filename)->first();
+        $fileName->type = 'appoved';
+        $fileName->save();
+        return response([
+            'message' => 'success',
+            'file' => $fileName,
+        ]);
+     }
 }

@@ -40,6 +40,9 @@ Route::post('/deleteusernhanvien', [UserController::class,'deleteUserNhanVien'])
 Route::post('/uploadcongvan', [UserController::class,'uploadCongVan']);
 Route::post('/uploadcongvannotres', [UserController::class,'uploadCVNotRes']);
 Route::post('/getfilefromaws', [UserController::class,'getFileFromAWS']);
+Route::post('/getfilenotresfromaws', [UserController::class,'getFileNotResFromAWS']);
 
 Route::get('/getallfile', [UserController::class,'getAllFile']);
 Route::get('/getallfilenotres', [UserController::class,'getAllFileNotRes']);
+
+Route::post('/changestatus', [UserController::class,'changeStatus']);
