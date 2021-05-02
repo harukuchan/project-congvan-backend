@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class File extends Model
+class Filenotres extends Model
 {
     use HasFactory;
 
-    protected $collection = 'files';
+    protected $collection = 'filenotres';
     protected $connection = 'mongodb';
 
     /**
@@ -32,5 +32,4 @@ class File extends Model
     protected $hidden = [
 
     ];
-
 }

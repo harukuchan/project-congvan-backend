@@ -20,6 +20,7 @@
         "laravel/ui": "^3.2",
         "league/flysystem-aws-s3-v3": "~1.0",
         "league/mime-type-detection": "^1.7",
+        "livewire/livewire": "^2.4",
         "mollie/mollie-api-php": "^2.30",
         "nesbot/carbon": "^2.46"
     },
