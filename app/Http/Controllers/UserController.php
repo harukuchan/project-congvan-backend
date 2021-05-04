@@ -277,8 +277,23 @@ class UserController extends Controller
     public function changeStatus(Request $request)
     {
         $filename = $request->filename;
+        $author = $request->author_approved;
         $fileName = File::where('namecongvan', $filename)->first();
-        $fileName->type = 'appoved';
+        $fileName->type = 'approved';
+        $fileName->author_id = $author;
+        $fileName->save();
+        return response([
+            'message' => 'success',
+            'file' => $fileName,
+        ]);
+     }
+     public function changeStatusNotRes(Request $request)
+    {
+        $filename = $request->filename;
+        $author = $request->author_approved;
+        $fileName = Filenotres::where('namecongvan', $filename)->first();
+        $fileName->type = 'approved';
+        $fileName->author_id = $author;
         $fileName->save();
         return response([
             'message' => 'success',
