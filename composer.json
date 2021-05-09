@@ -22,7 +22,8 @@
         "league/mime-type-detection": "^1.7",
         "livewire/livewire": "^2.4",
         "mollie/mollie-api-php": "^2.30",
-        "nesbot/carbon": "^2.46"
+        "nesbot/carbon": "^2.46",
+        "pusher/pusher-php-server": "^6.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

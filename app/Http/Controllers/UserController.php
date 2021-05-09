@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-
-
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 class UserController extends Controller
 {
@@ -299,5 +298,37 @@ class UserController extends Controller
             'message' => 'success',
             'file' => $fileName,
         ]);
+     }
+     public function redoApproved(Request $request)
+    {
+        $filename = $request->filename;
+        $fileName = File::where('namecongvan', $filename)->first();
+        $fileName->type = 'not approve';
+        $fileName->author_id = null;
+        $fileName->save();
+        return response([
+            'message' => 'success',
+            'file' => $fileName,
+        ]);
+     }
+     public function redoApprovedNotRes(Request $request)
+    {
+        $filename = $request->filename;
+        $fileName = Filenotres::where('namecongvan', $filename)->first();
+        $fileName->type = 'not approve';
+        $fileName->author_id = null;
+        $fileName->save();
+        return response([
+            'message' => 'success',
+            'file' => $fileName,
+        ]);
+     }
+     public function countnumber(){
+
+     }
+     public function addGroup(Request $request){
+         $group = new Group;
+         $group->groupname = $request->input('groupname');
+
      }
 }

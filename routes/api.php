@@ -47,3 +47,6 @@ Route::get('/getallfilenotres', [UserController::class,'getAllFileNotRes']);
 
 Route::post('/changestatus', [UserController::class,'changeStatus']);
 Route::post('/changestatusnotres', [UserController::class,'changeStatusNotRes']);
+
+Route::post('/redoapproved', [UserController::class,'redoApproved']);
+Route::post('/redoapprovednotres', [UserController::class,'redoApprovedNotRes']);
