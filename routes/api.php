@@ -50,3 +50,8 @@ Route::post('/changestatusnotres', [UserController::class,'changeStatusNotRes'])
 
 Route::post('/redoapproved', [UserController::class,'redoApproved']);
 Route::post('/redoapprovednotres', [UserController::class,'redoApprovedNotRes']);
+
+Route::post('/addnewgroup', [UserController::class,'addNewGroup']);
+Route::get('/getallgroup', [UserController::class,'getGroup']);
+
+Route::post('/addnewrole', [UserController::class,'addNewRole']);

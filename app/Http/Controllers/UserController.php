@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Mail\MyMail;
 use App\Models\File;
 use App\Models\Filenotres;
+use App\Models\Groups;
 use App\Models\PasswordReset;
+use App\Models\Role;
 use App\Models\User;
 use DateTime;
 use Carbon\Carbon;
@@ -206,9 +208,11 @@ class UserController extends Controller
         $files->url = $path;
         $files->author_id = $request->input('role');
         $files->type = 'notapprove';
+        $files->policy = $request->input('selectMulti');
         $files->save();
 
         return response([
+            'message' => 'upload success !',
             'path' => $path,
             'file' => $files,
         ]);
@@ -323,12 +327,80 @@ class UserController extends Controller
             'file' => $fileName,
         ]);
      }
-     public function countnumber(){
+     public function addNewGroup(Request $request){
+        $group = new Groups();
+        $group->groupname = $request->input('groupname');
+        $group->numberofusers = 0;
+        $group->keygroup = 'PHONGBAN'.Str::random(4);
+        $group->save();
 
+        return response([
+            'message' => 'success',
+            'group' => $group,
+        ]);
      }
-     public function addGroup(Request $request){
-         $group = new Group;
-         $group->groupname = $request->input('groupname');
+     public function getGroup(){
+        $group = Groups::all();
+        return response([
+            'message' => 'success',
+            'group' => $group,
+        ]);
+     }
+     public function addNewRole(Request $request){
+        $role = new Role();
+        $role->rolename = $request->input('rolename');
+        if($role->rolename !== 0){
+            switch ($role->rolename) {
+                case "Nhân Viên":
+                  $role->rolekey = 'nhanvien';
+                  $role->save();
 
+                  return response([
+                    'message' => 'success',
+                    'role' => $role,
+                    ]);
+                  break;
+                case "Trưởng Phòng":
+                    $role->rolekey = 'truongphong';
+                    $role->save();
+
+                    return response([
+                        'message' => 'success',
+                        'role' => $role,
+                        ]);
+                  break;
+                case "Giám Đốc":
+                    $role->rolekey = 'giamdoc';
+                    $role->save();
+
+                    return response([
+                        'message' => 'success',
+                        'role' => $role,
+                        ]);
+                  break;
+                case "Thủ Thư":
+                    $role->rolekey = 'thuthu';
+                    $role->save();
+
+                    return response([
+                        'message' => 'success',
+                        'role' => $role,
+                        ]);
+                  break;
+                default:
+                    $role->rolekey = 'nhanvien';
+                    $role->save();
+
+                    return response([
+                        'message' => 'success',
+                        'role' => $role,
+                        ]);
+              }
+        }
+        else{
+            return response([
+                'message' => 'false'
+            ]);
+        }
      }
 }
